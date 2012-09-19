@@ -6,7 +6,7 @@ height=1.2 #meter
 turnY=0.91 #meter
 a=0.08  #meter
 d=2.438 #meter
-
+sourceY=0.4 #meter
 
 c=3e8 #m/s
 nScint=1.1
@@ -24,7 +24,32 @@ def inGeo(x, y):
 def timeToPMT(x, y):
     return np.sqrt((x-width/2)**2+(y-height)**2)/(c/nScint)
 
-N=int(2e5)
+def getMuonTime():
+    while True:
+        x=random.random()*width
+        y=random.random()*height
+        if not inGeo(x, y):
+            continue
+        phi=random.random()*2*np.pi
+        theta=random.random()*maxTheta
+        x2=x+np.cos(phi)*np.tan(theta)*d
+        y2=y+np.sin(phi)*np.tan(theta)*d
+        if inGeo(x2, y2):
+           return d/np.cos(theta)/v - timeToPMT(x, y) + timeToPMT(x2, y2)
+
+def getPhotonTime():
+    x2=width/2
+    y2=sourceY
+    while True:
+        phi=random.random()*2*np.pi
+        theta=random.random()*maxTheta
+        x1=x2-np.cos(phi)*np.tan(theta)*d
+        y1=y2-np.sin(phi)*np.tan(theta)*d
+        if inGeo(x1, y1):
+           return -d/np.cos(theta)/v - timeToPMT(x1, y1) + timeToPMT(x2, y2)
+
+
+N=int(1e5)
 t=[]
 tb=[]
 X=[]
@@ -35,20 +60,10 @@ for i in range(N):
     if nP!=p:
         p=nP
         print(str(p)+'%')
-    x=random.random()*width
-    y=random.random()*height
-    if not inGeo(x, y):
-        continue
-    #X.append(x)
-    #Y.append(y)
-    phi=random.random()*2*np.pi
-    theta=random.random()*maxTheta
-    x2=x+np.cos(phi)*np.tan(theta)*d
-    y2=y+np.sin(phi)*np.tan(theta)*d
-    if inGeo(x2, y2):
-       tt=d/np.cos(theta)/v - timeToPMT(x, y) + timeToPMT(x2, y2)
+    if random.random()<0.5:
+        tt=getPhotonTime()
     else:
-       tt=float('inf')
+        tt=getMuonTime()
     '''p1ot=random.expovariate(lambd)
     p2ot=random.expovariate(lambd)
     if p1ot<tt:
@@ -64,8 +79,7 @@ for i in range(N):
 
     if T>0:
         tb.append(T)'''
-    if tt!=float('inf'):
-        t.append(tt)
+    t.append(tt)
 print('100%')
 import pylab as pl
 pl.hist([it*1e9 for it in t], bins=200)
