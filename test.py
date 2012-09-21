@@ -4,16 +4,18 @@ import numpy as np
 width=0.6 #meter
 height=1.2 #meter
 turnY=0.91 #meter
-a=0.08  #meter
+a=0.04  #meter
 d=2.438 #meter
 sourceY=0.4 #meter
 
 c=3e8 #m/s
-nScint=1.1
+nScint=1.5
 v=c*0.9
 rate=1e4 #1/(m^2s)
 
 maxTheta=np.arctan(np.sqrt(height**2+width**2)/d)
+minCosTheta=(d/np.sqrt(height**2+width**2+d**2))**3
+
 k=(width-a)/2/(height-turnY)
 area=width*height-2*((width-a)/2*(height-turnY)/2)
 lambd=area*rate
@@ -31,22 +33,22 @@ def getMuonTime():
         if not inGeo(x, y):
             continue
         phi=random.random()*2*np.pi
-        theta=random.random()*maxTheta
-        x2=x+np.cos(phi)*np.tan(theta)*d
-        y2=y+np.sin(phi)*np.tan(theta)*d
+        cosTheta=(random.random()*(1-minCosTheta)+minCosTheta)**(1./3)
+        x2=x+np.cos(phi)*d*np.sqrt(1-cosTheta**2)/cosTheta
+        y2=y+np.sin(phi)*d*np.sqrt(1-cosTheta**2)/cosTheta#np.tan(theta)*d
         if inGeo(x2, y2):
-           return d/np.cos(theta)/v - timeToPMT(x, y) + timeToPMT(x2, y2)
+            return d/cosTheta/v - timeToPMT(x, y) + timeToPMT(x2, y2)
 
 def getPhotonTime():
     x2=width/2
     y2=sourceY
     while True:
         phi=random.random()*2*np.pi
-        theta=random.random()*maxTheta
-        x1=x2-np.cos(phi)*np.tan(theta)*d
-        y1=y2-np.sin(phi)*np.tan(theta)*d
+        cosTheta=random.random()*(1-minCosTheta)+minCosTheta
+        x1=x2-np.cos(phi)*d*np.sqrt(1-cosTheta**2)/cosTheta
+        y1=y2-np.sin(phi)*d*np.sqrt(1-cosTheta**2)/cosTheta
         if inGeo(x1, y1):
-           return -d/np.cos(theta)/v - timeToPMT(x1, y1) + timeToPMT(x2, y2)
+           return -d/cosTheta/v - timeToPMT(x1, y1) + timeToPMT(x2, y2)
 
 
 N=int(1e5)
