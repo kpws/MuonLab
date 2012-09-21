@@ -18,5 +18,5 @@ n=200
 ts=np.linspace(0,50,n+1)
 #N=[sum(H[j] for j in range(len(H)) if ts[i]<ct[j]<ts[i+1]) for i in range(n)]
 #p.plot(reduce(lambda a,b:a+b,[[t]*2 for t in ts]),[0]+reduce(lambda a,b:a+b,[[iN]*2 for iN in N])+[0])
-p.plot(np.sum(Hs,axis=0))
+p.plot(ct,np.sum(Hs,axis=0))
 p.show()

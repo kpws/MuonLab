@@ -19,7 +19,7 @@ minCosTheta=(d/np.sqrt(height**2+width**2+d**2))**3
 k=(width-a)/2/(height-turnY)
 area=width*height-2*((width-a)/2*(height-turnY)/2)
 lambd=area*rate
-print 1/lambd*1e9
+
 def inGeo(x, y):
     return 0<x<width and 0<y<height and x>k*(y-turnY) and x<width-k*(y-turnY)
 
@@ -28,16 +28,17 @@ def timeToPMT(x, y):
 
 def getMuonTime():
     while True:
-        x=random.random()*width
-        y=random.random()*height
-        if not inGeo(x, y):
+        x1=random.random()*width
+        y1=random.random()*height
+        if not inGeo(x1, y1):
             continue
         phi=random.random()*2*np.pi
         cosTheta=(random.random()*(1-minCosTheta)+minCosTheta)**(1./3)
-        x2=x+np.cos(phi)*d*np.sqrt(1-cosTheta**2)/cosTheta
-        y2=y+np.sin(phi)*d*np.sqrt(1-cosTheta**2)/cosTheta#np.tan(theta)*d
+        x2=x1+np.cos(phi)*d*np.sqrt(1-cosTheta**2)/cosTheta
+        y2=y1+np.sin(phi)*d*np.sqrt(1-cosTheta**2)/cosTheta#np.tan(theta)*d
         if inGeo(x2, y2):
-            return d/cosTheta/v - timeToPMT(x, y) + timeToPMT(x2, y2)
+            return d/cosTheta/v - timeToPMT(x1, y1) + timeToPMT(x2, y2)
+
 
 def getPhotonTime():
     x2=width/2
@@ -48,8 +49,7 @@ def getPhotonTime():
         x1=x2-np.cos(phi)*d*np.sqrt(1-cosTheta**2)/cosTheta
         y1=y2-np.sin(phi)*d*np.sqrt(1-cosTheta**2)/cosTheta
         if inGeo(x1, y1):
-           return -d/cosTheta/v - timeToPMT(x1, y1) + timeToPMT(x2, y2)
-
+           return -d/cosTheta/c - timeToPMT(x1, y1) + timeToPMT(x2, y2)
 
 N=int(1e5)
 t=[]
