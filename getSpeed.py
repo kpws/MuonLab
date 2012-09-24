@@ -5,10 +5,10 @@ import numpy as np
 from scipy import trapz
 from scipy.optimize import fmin
 
-c=3e8
+c=2.99792458e8
 
-t=np.linspace(-40e-9,40e-9,500)
-pl.plot(t, speedExp.pdf(t))
+t=np.linspace(-40e-9,40e-9,2500)
+pl.plot(t, speedExp.pdf(t),label='Experimental')
 
 t1=6.6e-9
 t2=1.66e-8
@@ -23,7 +23,7 @@ def err1(dt,I):
     return sum((photonPDF(t-dt)*I-speedExp.pdf(t))**2)
 
 def err2(v,I):
-    t=np.linspace(t2,t3,400)
+    t=np.linspace(t2,t3,100)
     return sum((muonPDF(t-dt,v)*I-speedExp.pdf(t))**2)
 
 x=fmin(lambda x:err1(x[0]*1e-9,x[1])*1e-14,[17,0.05])
@@ -37,10 +37,15 @@ I2=x[1]
 #pl.figure()
 #pl.plot(dts,[err(dt*1e-9,x[1]) for dt in dts])
 
-t=np.linspace(t1,t2,200)
-pl.plot(t,photonPDF(t-dt)*I1)
-t=np.linspace(t2,t3,200)
-pl.plot(t,muonPDF(t-dt,v)*I2)
+t=np.linspace(t1,t2,1000)
+pl.plot(t,photonPDF(t-dt)*I1,label='Fit of Monte-Carlo data for photons')
+t=np.linspace(t2,t3,1000)
+pl.plot(t,muonPDF(t-dt,v)*I2,label='Fit of Monte-Carlo dato for muons')
 #for v in np.linspace(0.5,1,5)*c:
 #   pl.plot(t,muonPDF(t,c))
+pl.legend(loc=2)
+pl.axis([0.5e-8,3.8e-8,0,1.85e8])
+pl.xlabel('TAC time, [s]')
+pl.ylabel('Probability density, [s$^{-1}$]')
+pl.savefig('speedFit.pdf',bbox_inches=0)
 pl.show()

@@ -13,7 +13,7 @@ a=0.04  #meter
 d=2.438 #meter
 sourceY=0.35 #0.4 #meter
 
-c=3e8 #m/s
+c=3e8#2.99792458e8 #m/s
 nScint=1.5
 vs=np.linspace(0.5,1,30)*c
 rate=1e4 #1/(m^2s)
@@ -63,11 +63,11 @@ for typ in ['muon','photon']:
         for v in (vs if typ=='muon' else ['']):
             r=csv.reader(open(typ+str(v)+'TimeMC','r'), delimiter='\t')
             if typ=='muon':
-                a=zip(*[ir for ir in r])
-                muonT[v],muonF[v]=(map(float,a[0]),map(float,a[1]))
+                z=zip(*[ir for ir in r])
+                muonT[v],muonF[v]=(map(float,z[0]),map(float,z[1]))
             else:
-                a=zip(*[ir for ir in r])
-                photonT,photonF=(map(float,a[0]),map(float,a[1]))
+                z=zip(*[ir for ir in r])
+                photonT,photonF=(map(float,z[0]),map(float,z[1]))
     except IOError:
         N=int((1/err)**2*steps+1)
         for v in (vs if typ=='muon' else ['']):
