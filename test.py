@@ -1,12 +1,14 @@
 import random
 import numpy as np
 
+N=int(1e4)
+
 width=0.6 #meter
 height=1.2 #meter
 turnY=0.91 #meter
 a=0.04  #meter
 d=2.438 #meter
-sourceY=0.4 #meter
+sourceY=0.35 #0.4 #meter
 
 c=3e8 #m/s
 nScint=1.5
@@ -51,7 +53,6 @@ def getPhotonTime():
         if inGeo(x1, y1):
            return -d/cosTheta/c - timeToPMT(x1, y1) + timeToPMT(x2, y2)
 
-N=int(1e5)
 t=[]
 tb=[]
 X=[]
