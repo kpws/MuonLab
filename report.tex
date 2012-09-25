@@ -45,11 +45,11 @@ To determine the lifetime of the muon we fitted an exponential distribution to t
 f(t)=\frac{\exp{(-t/\tau)}+C}{\tau\exp{(-t_1/\tau)}-\tau\exp{(-t_2/\tau)}+C(t_2-t_1)}\label{pdf}
 \end{equation}
 
-To determine $\tau$ and $C$ for our measured data the likelyhood function $\prod f(t_i)$ was minimized yielding $\tau=2.0$ $\mu$s and $C=0.05$. \newline
+To determine $\tau$ and $C$ for our measured data the likelyhood function $L=\prod_i f(t_i)$ was maximized yielding $\tau=2.07$ $\mu$s. \newline
 
-The statistical error was determined by sampling many different simulated sets of data points by using the distribution \eqref{pdf} and then calculate the standard deviation of these sets. The likelyhood function was also calculated to see that it was consistent with the likelyhood function for the real data points, thus verifying the validity of the model. \newline
+The statistical error was determined by sampling many different simulated sets of data points by using the distribution \eqref{pdf} and then calculate the standard deviation of these sets. The result was a standard deviation $\sigma=0.02$ $\mu$s. \newline
 
-By applying the same method it is also possible to verify that the obtained constant noise is not just statistical fluctuations. Minimizing the likelyhood function with respect to the lifetime and the constant noise set to zero a lifetime of $2.21$ $\mu$s is obtained. Using this lifetime to sample new sets of data points, and then fitting the distribution \eqref{pdf} to these data points it is possible to obtain the expected size of the statistical noise. This gives a simulated mean noise of $1.3\cdot 10^{-4}$ with standard deviation $9.4\cdot 10^{-5}$ compared to the noise of the data which is about $0.0021$. It is thus clear that this can not be explained by statistical fluctuations and must be taken into account in the model.
+By applying the same method it is also possible to verify that the obtained constant noise is not just statistical fluctuations. Maximizing the likelyhood function with respect to the lifetime but with the constant noise set to zero a lifetime of $2.21$ $\mu$s is obtained. Using this lifetime to sample new sets of data points, and then fitting the distribution \eqref{pdf} to these data points it is possible to obtain the expected size of the statistical noise. This gives a simulated mean noise (the propability of a measure data point coming from noise) of $\approx1.6\cdot 10^{-3}$ with standard deviation $\approx1.8\cdot 10^{-3}$ which is unreasonably small compared to the noise of the data which is about $0.034$. It is thus clear that this can not be explained by statistical fluctuations and must be taken into account in the model as a constant background noise.
 
 \subsection{Speed Measurement}
 
@@ -61,7 +61,7 @@ By applying the same method it is also possible to verify that the obtained cons
 \end{figure}
 
 \section{Conclusions}
-The obtained lifetime for the muon is slightly lower than the accepted value of $2.2$ $\mu$s which is not even in our error margin. However, this can be explained by the fact that there are two muons, $mu^+$ and $\mu^-$, which doesnt have the same lifetimes in the detector material \cite{}. $\mu^+$ has the same lifetime as in vacuum, while $\mu^-$ has a lifetime of about $2.0$ $\mu$s. The size of the measurement data obtained in this experiment is too small to be able to separate these two exponential distributions.
+The obtained lifetime for the muon is slightly lower than the accepted value of $2.2$ $\mu$s which is not even in our error margin. However, this can be explained by the fact that there are two muons, $\mu^+$ and $\mu^-$, which doesnt have the same lifetimes in the detector material \cite{}. $\mu^+$ has the same lifetime as in vacuum, while $\mu^-$ has a lifetime of about $2.0$ $\mu$s. The size of the measurement data obtained in this experiment is too small to be able to separate these two exponential distributions.
 
 
 % Figurer inkluderade som eps-filer
