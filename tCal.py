@@ -2,6 +2,7 @@ from __future__ import division
 import pylab as p
 import numpy as np
 import csv
+from scipy.interpolate import interp1d
 
 ts=[7,8,10,12,15,20,25,30,35,38,40,45,50]
 lowCut=6.5
@@ -27,17 +28,20 @@ def channelToTime(c):
     if c<meanChannel[0]:
         return max(lowCut, (c-meanChannel[0])/(meanChannel[1]-meanChannel[0])*(ts[1]-ts[0])+ts[0])
     else:
-        return np.interp(c, meanChannel,ts)
+#        return np.interp(c, meanChannel,ts)
+        return interp1d(meanChannel,ts,kind='slinear')(min(c,meanChannel[-1]))
 
 def timeToChannel(t):
     if t<ts[0]:
         return (max(t, lowCut)-ts[0])/(ts[1]-ts[0])*(meanChannel[1]-meanChannel[0])+meanChannel[0]
 
-    return np.interp(t, ts, meanChannel)
+#    return np.interp(t, ts, meanChannel)
+    return interp1d(ts, meanChannel,kind='slinear')(min(t,ts[-1]))
 
 if __name__ == "__main__":
     p.legend()
     p.figure()
     print stdChannel
     p.errorbar(ts,meanChannel,yerr=stdChannel)
+    p.plot(np.linspace(ts[0],ts[-1],100),[timeToChannel(t) for t in np.linspace(ts[0],ts[-1],100)])
     p.show()

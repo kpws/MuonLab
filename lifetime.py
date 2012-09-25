@@ -60,27 +60,39 @@ if __name__=="__main__":
 	#p.plot(x,[lD(i) for i in x])
 	lifetime1,lifetime,likelyhood,totalSamples,c=computeLifetime(H,ct,s1,s2)
 	print totalSamples
-	p.plot(reduce(lambda a,b:a+b,[[t]*2 for t in ts]),[0]+reduce(lambda a,b:a+b,[[float(iN)/totalSamples/ts[1]]*2 for iN in N])+[0],label="bins")
-	p.plot(reduce(lambda a,b:a+b,[[t]*2 for t in ts]),1./lifetime/(np.exp(-s1/lifetime)-np.exp(-s2/lifetime)+c**2*(s2-s1))*(np.exp(reduce(lambda a,b:a+b,[[t]*2 for t in ts])/(-lifetime))+c**2),label="analytic")
+	p.plot(reduce(lambda a,b:a+b,[[t]*2 for t in ts]),[0]+reduce(lambda a,b:a+b,[[float(iN)/totalSamples/ts[1]]*2 for iN in N])+[0],label="Data")
+	p.plot(reduce(lambda a,b:a+b,[[t]*2 for t in ts]),1./lifetime/(np.exp(-s1/lifetime)-np.exp(-s2/lifetime)+c**2*(s2-s1))*(np.exp(reduce(lambda a,b:a+b,[[t]*2 for t in ts])/(-lifetime))+c**2),label="Fit")
+	p.plot(reduce(lambda a,b:a+b,[[t]*2 for t in ts]),np.ones(2*len(ts))*c**2)
+#	p.show()
 #	p.plot(ct,H,label="raw")
 
-	ensembleSize=2
+	ensembleSize=50
 	ensemblelifetime1=[0]*ensembleSize
 	ensemblelifetime=[0]*ensembleSize
 	ensembleLikelyhood=[0]*ensembleSize
+	noise=[]
 	for i in range(ensembleSize):
 		print i
 		H=[0]*len(H)
 		count=0
 		while count<totalSamples:
-			x=random.expovariate(1./lifetime)
+			x=random.expovariate(1./2.21)
 			if s2>x>s1:
 				count+=1
 			H[int(timeToChannel(x)+0.5)]+=1
 		ensemblelifetime1[i],ensemblelifetime[i],ensembleLikelyhood[i],t,t2=computeLifetime(H,ct,s1,s2)
+		noise.append(t2**2)
 
 	#p.plot(ct,H,label="sampled")
+	p.figure()
+	p.plot(noise,'.')
+	p.plot(c**2,'.')
+	print "noise"
+	print np.std(noise)
+	print np.mean(noise)
+	print c**2
 	p.legend(loc=1)
+	p.show()
 	p.figure()
 	p.plot(ensemblelifetime1,'.',label="lifetime1")
 	p.plot(ensemblelifetime,'.',label="lifetime")
