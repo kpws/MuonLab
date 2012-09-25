@@ -19,6 +19,7 @@ vs=np.linspace(0.5,1,30)*c
 rate=1e4 #1/(m^2s)
 
 maxTheta=np.arctan(np.sqrt(height**2+width**2)/d)
+print maxTheta*360./2/np.pi
 minCosTheta=d/np.sqrt(height**2+width**2+d**2)
 
 k=(width-a)/2/(height-turnY)

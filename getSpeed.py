@@ -23,12 +23,17 @@ def err1(dt,I):
     return sum((photonPDF(t-dt)*I-speedExp.pdf(t))**2)
 
 def err2(v,I):
-    t=np.linspace(t2,t3,100)
+    t=np.linspace(t2,t3,500)
     return sum((muonPDF(t-dt,v)*I-speedExp.pdf(t))**2)
 
+
+t=np.linspace(t1,t2,1000)
+#I1=sum(speedExp.pdf(t))*(t[1]-t[0])
 x=fmin(lambda x:err1(x[0]*1e-9,x[1])*1e-14,[17,0.05])
 dt=x[0]*1e-9
 I1=x[1]
+t=np.linspace(t2,t3,100)
+#I2=sum(speedExp.pdf(t))*(t[1]-t[0])
 x=fmin(lambda x:err2(x[0]*c,x[1])*1e-14,[0.8,1.])
 v=x[0]*c
 print v
@@ -40,11 +45,11 @@ I2=x[1]
 t=np.linspace(t1,t2,1000)
 pl.plot(t,photonPDF(t-dt)*I1,label='Fit of Monte-Carlo data for photons')
 t=np.linspace(t2,t3,1000)
-pl.plot(t,muonPDF(t-dt,v)*I2,label='Fit of Monte-Carlo dato for muons')
+pl.plot(t,muonPDF(t-dt,v)*I2,label='Fit of Monte-Carlo data for muons')
 #for v in np.linspace(0.5,1,5)*c:
 #   pl.plot(t,muonPDF(t,c))
 pl.legend(loc=2)
-pl.axis([0.5e-8,3.8e-8,0,1.85e8])
+pl.axis([0.5e-8,3.8e-8,0,2.5e8])
 pl.xlabel('TAC time, [s]')
 pl.ylabel('Probability density, [s$^{-1}$]')
 pl.savefig('speedFit.pdf',bbox_inches=0)
