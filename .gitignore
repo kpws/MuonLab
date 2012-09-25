@@ -1,5 +1,9 @@
 *.py[co]
 *~
+*.pdf
+*.toc
+*.aux
+*.log
 # Packages
 *.egg
 *.egg-info
