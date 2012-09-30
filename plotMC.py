@@ -39,6 +39,8 @@ for dx in [-dxm,dxm]:
         if inGeo(x2, y2):
             ax.plot([x1-ps.width/2+dx,x2-ps.width/2+dx],[y1-ps.height/2,y2-ps.height/2],[-ps.d/2,ps.d/2],'.-b' if dx==-dxm else '.-r')
             ax.plot([x2+(x1-x2)*extra-ps.width/2+dx,x1+(x2-x1)*extra-ps.width/2+dx],[y2+(y1-y2)*extra-ps.height/2,y1+(y2-y1)*extra-ps.height/2],[-ps.d/2*(1+2*(extra-1)),ps.d/2*(1+2*(extra-1))],'-b' if dx==-dxm else '-r')
+            ax.plot([x1-ps.width/2+dx,dx],[y1-ps.height/2,ps.height/2],[-ps.d/2,-ps.d/2],'--y')
+            ax.plot([x2-ps.width/2+dx,dx],[y2-ps.height/2,ps.height/2],[ps.d/2,ps.d/2],'--y')
 #ax.axis('equal')
 #plt.xlabel('[m]')
 #plt.ylabel('[m]')
