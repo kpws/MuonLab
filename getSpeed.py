@@ -8,7 +8,7 @@ from scipy.optimize import fmin
 c=2.99792458e8
 
 t=np.linspace(-40e-9,40e-9,2500)
-pl.plot(t, speedExp.pdf(t),label='Experimental')
+pl.plot(t, speedExp.pdf(t),'k',label='Experimental')
 
 t1=6.6e-9
 t2=1.66e-8
@@ -23,7 +23,7 @@ def err1(dt,I):
     return sum((photonPDF(t-dt)*I-speedExp.pdf(t))**2)
 
 def err2(v,I):
-    t=np.linspace(t2,t3,500)
+    t=np.linspace(t2,t3,1000)
     return sum((muonPDF(t-dt,v)*I-speedExp.pdf(t))**2)
 
 
@@ -43,9 +43,9 @@ I2=x[1]
 #pl.plot(dts,[err(dt*1e-9,x[1]) for dt in dts])
 
 t=np.linspace(t1,t2,1000)
-pl.plot(t,photonPDF(t-dt)*I1,label='Fit of Monte-Carlo data for photons')
+pl.plot(t,photonPDF(t-dt)*I1,label='Fit of Monte-Carlo data for photons',color='r')
 t=np.linspace(t2,t3,1000)
-pl.plot(t,muonPDF(t-dt,v)*I2,label='Fit of Monte-Carlo data for muons')
+pl.plot(t,muonPDF(t-dt,v)*I2,label='Fit of Monte-Carlo data for muons',color='b')
 #for v in np.linspace(0.5,1,5)*c:
 #   pl.plot(t,muonPDF(t,c))
 pl.legend(loc=2)
