@@ -1,6 +1,6 @@
 *.py[co]
 *~
-*.pdf
+report.pdf
 *.toc
 *.aux
 *.log
